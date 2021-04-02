@@ -1,6 +1,7 @@
 
 var nosDisplay = document.querySelector('#nosDisplay');
 var opDisplay = document.querySelector('#operatorDisplay');
+var first_number,second_number,result;
 // For the numbers
 function one_clicked() {
     nosDisplay.innerHTML += '1';
@@ -35,22 +36,49 @@ function zero_clicked() {
 
 // For the opearators
 function divide_clicked() {
-    opDisplay.innerHTML = '/';
+    if(nosDisplay.innerHTML!='') { // so that input won't be done until some number input
+        opDisplay.innerHTML = '/';
+    }
 }
 function multi_clicked() {
-    opDisplay.innerHTML = 'X';
+    if(nosDisplay.innerHTML!='') {
+        opDisplay.innerHTML = 'X';
+    }
 }
 function add_clicked() {
-    opDisplay.innerHTML = '+';
+    if(nosDisplay.innerHTML!='') {
+        opDisplay.innerHTML = '+';
+    }
 }
 function subs_clicked() {
-    opDisplay.innerHTML = '-';
+    if(nosDisplay.innerHTML!='') {
+        opDisplay.innerHTML = '-';
+    }
 }
- 
 // For the cancel
 function cancel_clicked() {
-    nosDisplay.innerHTML="";
-    opDisplay.innerHTML="";
+    nosDisplay.innerHTML='';
+    opDisplay.innerHTML='';
+    first_number=null;
+    second_number=null;
+}
+//For the equal
+function equal_clicked() {
+    calculation();
+    opDisplay.innerHTML='';
+    nosDisplay.innerHTML=result;
+}
+//For the calculation
+function calculation() {
+    if(opDisplay.innerHTML=='/'){
+        result = first_number / second_number;
+    } else if(opDisplay.innerHTML=='X'){
+        result = first_number * second_number;
+    } else if(opDisplay.innerHTML=='+'){
+        result = first_number + second_number;
+    } else if(opDisplay.innerHTML=='-'){
+        result = first_number - second_number;
+    }
 }
 //when user has entered operator clear only is the nosDisplay in transiition for second nos input 
 //when user clickes = then check if nosDisplay is empty put up a div beside name written 
