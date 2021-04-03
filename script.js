@@ -104,6 +104,18 @@ function zero_clicked() {
         nosDisplay.innerHTML += '0';
     }
 }
+// For the dot
+function dot_clicked() {
+    first();
+    nosDisplay.innerHTML += '.';
+}
+
+// For the prev_char_remove
+function prev_char_remove_clicked() { // removes the last character
+    let string = nosDisplay.innerHTML;
+    string = string.slice(0,-1);
+    nosDisplay.innerHTML = string;
+}
 
 // For the opearators
 function divide_clicked() {
@@ -130,15 +142,30 @@ function subs_clicked() {
     }
     getFirstNumber();
 }
+function check_float_number() { // Function to check whether number is float or int
+     if(parseFloat(nosDisplay.innerHTML)==parseInt(nosDisplay.innerHTML)) { // parseFloat('2.2')=2.2, parseInt('2.2')=2, parseFloat('2')=2, parseInt('2')=2
+         return 0;
+     } else {
+         return 1;
+     }
+}
 function getFirstNumber() {
     if(calc_done) {
-        var string = nosDisplay.innerHTML;
-        var updated_string = string.slice(2,string.length); // as i have '= ' in result need to take care of it so string will have the whole and updated string will have '= ' after this
-        first_number = parseInt(updated_string);
+        let string = nosDisplay.innerHTML;
+        string = string.slice(2,string.length); // as i have '= ' in result need to take care of it so string will have the whole and updated string will have '= ' after this
+        if(check_float_number()) {
+            first_number = parseFloat(string);
+        } else {
+            first_number = parseInt(string);
+        }
         first_number_found=true;
         return;
     }
-    first_number = parseInt(nosDisplay.innerHTML);
+    if(check_float_number()) {
+        first_number = parseFloat(nosDisplay.innerHTML);
+    } else {
+        first_number = parseInt(nosDisplay.innerHTML);
+    }
     first_number_found=true;
     return;
 }
@@ -153,7 +180,11 @@ function cancel_clicked() {
 }
 //For the equal
 function equal_clicked() {
-    second_number = parseInt(nosDisplay.innerHTML);
+    if(check_float_number()) {
+        second_number = parseFloat(nosDisplay.innerHTML);
+    } else {
+        second_number = parseInt(nosDisplay.innerHTML);
+    }
     calculation();
     opDisplay.innerHTML='';
     nosDisplay.innerHTML=result;
@@ -167,22 +198,45 @@ function calculation() {
         if(second_number == '0') {
             result += 'undefined';
         } else {
-            result += first_number / second_number;
+            let ans = first_number / second_number;
+            if(isInt(ans)) { // if ans is int make it as a single digit
+                result += ans.toFixed(0); //if ans is 2.0 then we want it as 2
+            } else {
+                result += ans.toFixed(2); // for 4 digit precision
+            }
         }
         calc_done=true;
         return;
     } else if(opDisplay.innerHTML=='X'){
-        result += first_number * second_number;
+        let ans = first_number * second_number;
+        if(isInt(ans)) {
+            result += ans.toFixed(0); // this toFixed is used to round off
+        } else {
+            result += ans.toFixed(2);
+        }
         calc_done=true;
         return;
     } else if(opDisplay.innerHTML=='+'){
-        result += first_number + second_number;
+        let ans = first_number + second_number;
+        if(isInt(ans)) {
+            result += ans.toFixed(0);
+        } else {
+            result += ans.toFixed(2);
+        }
         calc_done=true;
         return;
     } else if(opDisplay.innerHTML=='-'){
-        result += first_number - second_number;
+        let ans = first_number - second_number;
+        if(isInt(ans)) {
+            result += ans.toFixed(0);
+        } else {
+            result += ans.toFixed(2);
+        }
         calc_done=true;
         return;
     }
 }
+function isInt(n) { // Function to check if ans is int or float
+    return n % 1 === 0;
+ }
 

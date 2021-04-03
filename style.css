@@ -135,36 +135,40 @@ body::before{
     padding: .8rem;    
 }
 
+.dot.cover { /* just to keep dot and prev_char_remove in middle */
+    margin-left: 6.8rem;
+}
+
 .seven.cover, .eight.cover, .nine.cover, 
 .four.cover, .five.cover, .six.cover, .three.cover, 
-.two.cover, .one.cover, .zero.cover {
+.two.cover, .one.cover, .zero.cover, .dot.cover {
     background: linear-gradient(#272727, #141414);
 }
 .seven.btn, .eight.btn, .nine.btn, 
 .four.btn, .five.btn, .six.btn, .three.btn, 
-.two.btn, .one.btn, .zero.btn{
+.two.btn, .one.btn, .zero.btn, .dot.btn {
     background: linear-gradient(#141414 10%, #272727);
     color: rgb(228, 224, 224);
 }
 .seven.btn:active, .eight.btn:active, .nine.btn:active, /* for click effect */
 .four.btn:active, .five.btn:active, .six.btn:active, .three.btn:active, 
-.two.btn:active, .one.btn:active, .zero.btn:active{
+.two.btn:active, .one.btn:active, .zero.btn:active, .dot.btn:active{
     background: #272727;
 }
 .divide.cover, .multi.cover, 
 .subs.cover, .add.cover, 
-.equal.cover{
+.equal.cover, .prev_char_remove.cover{
     background: linear-gradient(#fff, rgb(202, 202, 202));
 }
 .divide.btn, .multi.btn, 
 .subs.btn, .add.btn, 
-.equal.btn {
+.equal.btn, .prev_char_remove.btn {
     background: linear-gradient(rgb(202, 202, 202), #fff);
     color: #272727;
 }
 .divide.btn:active, .multi.btn:active, /* for click effect */
 .subs.btn:active, .add.btn:active, 
-.equal.btn:active {
+.equal.btn:active, .prev_char_remove.btn:active{
     background: rgb(202, 202, 202);
 }
 
@@ -214,6 +218,9 @@ body::before{
         padding: .1rem;
         box-shadow: 0 0 2rem rgba(33, 33, 33, .3);
     }  
+    .dot.cover { 
+        margin-left: 5rem;
+    }
     .btn {
         height: 2.3rem;
         width: 2.3rem;
