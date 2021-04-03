@@ -94,6 +94,7 @@ body::before{
     color: #a07cd9;
     font-size: 2.5rem;
     padding: .1rem;
+    overflow-x: scroll;
 }
 #operatorDisplay{
     height: 100%;
