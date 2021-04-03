@@ -57,6 +57,9 @@ body::before{
     color: #ff7920;
     padding: .8rem;
     box-shadow: 0 0 .2rem .2rem #ff7920;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .main{
     height: 85%;
@@ -174,4 +177,46 @@ body::before{
 .cancel.btn:active { /* for click effect */
     background: #ff5e00;
 }
-/* check the background color at bottom correct it */
+
+/* to make it responsive */
+@media screen and (max-width: 850px){ 
+    .container {
+        height: 30rem;
+        width: 17rem;
+    }
+    .logo {
+      height: 1.2rem;
+      width: 7rem;  
+      font-size: .6rem;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      box-shadow: 0 0 .1rem .1rem #ff7920;
+    } 
+    .displayBox {
+        padding: .8rem;
+    }
+    #nosDisplay{
+        font-size: 2rem;
+        padding: .2rem;
+    }
+    #operatorDisplay{
+        font-size: 1rem;
+        padding: .2rem;
+        margin-left: .1rem;
+    }
+    .cover {
+        height: 3.1rem;
+        width: 3.1rem;
+        margin-top: .3rem;
+        margin-left: .6rem;
+        margin-right: .5rem;
+        padding: .1rem;
+        box-shadow: 0 0 2rem rgba(33, 33, 33, .3);
+    }  
+    .btn {
+        height: 2.2rem;
+        width: 2.2rem;
+        font-size: 1.3rem;
+        padding: .4rem;
+    }
+}
