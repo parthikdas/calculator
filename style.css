@@ -159,18 +159,21 @@ body::before{
 }
 .divide.cover, .multi.cover, 
 .subs.cover, .add.cover, 
-.equal.cover, .prev_char_remove.cover{
+.equal.cover, .prev_char_remove.cover,
+.pie.cover{
     background: linear-gradient(#fff, rgb(202, 202, 202));
 }
 .divide.btn, .multi.btn, 
 .subs.btn, .add.btn, 
-.equal.btn, .prev_char_remove.btn {
+.equal.btn, .prev_char_remove.btn,
+.pie.btn {
     background: linear-gradient(rgb(202, 202, 202), #fff);
     color: #272727;
 }
 .divide.btn:active, .multi.btn:active, /* for click effect */
 .subs.btn:active, .add.btn:active, 
-.equal.btn:active, .prev_char_remove.btn:active{
+.equal.btn:active, .prev_char_remove.btn:active
+.pie.btn:active{
     background: rgb(202, 202, 202);
 }
 

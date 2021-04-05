@@ -95,6 +95,15 @@ function zero_clicked() {
         nosDisplay.innerHTML += '0';
     }
 }
+//For pie
+function pie_clicked() {
+    first();
+    if(check_default_display()) {
+        nosDisplay.innerHTML = '3.14';
+    } else {
+        nosDisplay.innerHTML += '3.14';
+    }
+}
 //For the negetive
 function negetive_clicked() {
     first();
