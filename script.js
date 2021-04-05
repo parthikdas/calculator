@@ -1,8 +1,8 @@
 
 var nosDisplay = document.querySelector('#nosDisplay');
 var opDisplay = document.querySelector('#operatorDisplay');
-var first_number,second_number,result='= ';
-var first_number_found = false, calc_done = false, cancel_pressed=false;
+var first_number, second_number, result='= ';
+var first_number_found = false, calc_done = false, cancel_pressed=false, dot_used=false;
 // For the numbers
 function check_default_display() { // This function checks whether default value is displayed 
     if(nosDisplay.innerHTML=='0') {
@@ -18,7 +18,7 @@ function first() { // This function checks whether the first number is found if 
     first_number_found = false; // this have to be done as again when a number is clicked the screen becomes blank
 }
 function calculation_done(){
-    if(calc_done && !(cancel_pressed)) { // if calculation is done and cancel it not pressed maybe user wants the result as first number for further calculations
+    if(calc_done && !(cancel_pressed)) { // if calculation is done and cancel is not pressed maybe user wants the result as first number for further calculations
         getFirstNumber(); // so take it as first number 
     } else {
         cancel_clicked(); // else clear all things
@@ -107,7 +107,10 @@ function zero_clicked() {
 // For the dot
 function dot_clicked() {
     first();
-    nosDisplay.innerHTML += '.';
+    if(!dot_used && !(nosDisplay.innerHTML.includes('.'))) { //if dot is not used and the existing value doesnot contain dot then only you can enter( this condition is when result becomes the first number (it may contain dot bcz of previous calculation))
+        nosDisplay.innerHTML += '.';
+        dot_used = true;
+    }
 }
 
 // For the prev_char_remove
@@ -115,9 +118,12 @@ function prev_char_remove_clicked() { // removes the last character
     let string = nosDisplay.innerHTML;
     string = string.slice(0,-1);
     nosDisplay.innerHTML = string;
+    if(!(string.includes('.'))){ //if user removed the decimal then make it false so that it can be entered later
+        dot_used = false;
+    }
 }
 
-// For the opearators
+// For the operators
 function divide_clicked() {
     if(nosDisplay.innerHTML!='') { // so that input won't be done until some number input
         opDisplay.innerHTML = '/';
@@ -155,14 +161,16 @@ function getFirstNumber() {
         string = string.slice(2,string.length); // as i have '= ' in result need to take care of it so string will have the whole and updated string will have '= ' after this
         if(check_float_number()) {
             first_number = parseFloat(string);
+            dot_used = false;
         } else {
             first_number = parseInt(string);
         }
-        first_number_found=true;
+        first_number_found = true;
         return;
     }
     if(check_float_number()) {
         first_number = parseFloat(nosDisplay.innerHTML);
+        dot_used = false;
     } else {
         first_number = parseInt(nosDisplay.innerHTML);
     }
@@ -182,6 +190,7 @@ function cancel_clicked() {
 function equal_clicked() {
     if(check_float_number()) {
         second_number = parseFloat(nosDisplay.innerHTML);
+        dot_used = false;
     } else {
         second_number = parseInt(nosDisplay.innerHTML);
     }
