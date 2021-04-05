@@ -2,29 +2,20 @@
 var nosDisplay = document.querySelector('#nosDisplay');
 var opDisplay = document.querySelector('#operatorDisplay');
 var first_number, second_number, result='= ';
-var first_number_found = false, calc_done = false, cancel_pressed=false, dot_used=false;
-// For the numbers
-function check_default_display() { // This function checks whether default value is displayed 
+var first_number_found = false, calc_done = false, dot_used=false, negetive_used=false;
+//For the numbers
+function check_default_display() { //This function checks whether default value is displayed 
     if(nosDisplay.innerHTML=='0') {
         return 1;
     } else {
         return 0;
     }
 }
-function first() { // This function checks whether the first number is found if yes then second number will start from empty screen
+function first() { //This function checks whether the first number is found if yes then second number will start from empty screen
     if(first_number_found) {
         nosDisplay.innerHTML = '';
     }
-    first_number_found = false; // this have to be done as again when a number is clicked the screen becomes blank
-}
-function calculation_done(){
-    if(calc_done && !(cancel_pressed)) { // if calculation is done and cancel is not pressed maybe user wants the result as first number for further calculations
-        getFirstNumber(); // so take it as first number 
-    } else {
-        cancel_clicked(); // else clear all things
-    }
-    calc_done=false;
-    cancel_pressed = false;
+    first_number_found = false; //this have to be done as again when a number is clicked the screen becomes blank
 }
 function one_clicked() {
     first();
@@ -104,7 +95,15 @@ function zero_clicked() {
         nosDisplay.innerHTML += '0';
     }
 }
-// For the dot
+//For the negetive
+function negetive_clicked() {
+    first();
+    if(!negetive_used && !(nosDisplay.innerHTML.includes('-'))) { //if negetive is not used and the existing value doesnot contain negetive then only you can enter( this condition is when result becomes the first number (it may contain dot bcz of previous calculation))
+        nosDisplay.innerHTML = '-'; //as it will be in the front so just '=' not '+='
+        negetive_used = true;
+    }
+}
+//For the dot
 function dot_clicked() {
     first();
     if(!dot_used && !(nosDisplay.innerHTML.includes('.'))) { //if dot is not used and the existing value doesnot contain dot then only you can enter( this condition is when result becomes the first number (it may contain dot bcz of previous calculation))
@@ -113,19 +112,22 @@ function dot_clicked() {
     }
 }
 
-// For the prev_char_remove
-function prev_char_remove_clicked() { // removes the last character
+//For the prev_char_remove
+function prev_char_remove_clicked() { //removes the last character
     let string = nosDisplay.innerHTML;
     string = string.slice(0,-1);
     nosDisplay.innerHTML = string;
     if(!(string.includes('.'))){ //if user removed the decimal then make it false so that it can be entered later
         dot_used = false;
     }
+    if(!(string.includes('-'))){ //if user removed the negetive then make it false so that it can be entered later
+        negetive_used = false;
+    }
 }
 
-// For the operators
+//For the operators
 function divide_clicked() {
-    if(nosDisplay.innerHTML!='') { // so that input won't be done until some number input
+    if(nosDisplay.innerHTML!='') { //so that input won't be done until some number input
         opDisplay.innerHTML = '/';
     }
     getFirstNumber();
@@ -148,8 +150,8 @@ function subs_clicked() {
     }
     getFirstNumber();
 }
-function check_float_number() { // Function to check whether number is float or int
-     if(parseFloat(nosDisplay.innerHTML)==parseInt(nosDisplay.innerHTML)) { // parseFloat('2.2')=2.2, parseInt('2.2')=2, parseFloat('2')=2, parseInt('2')=2
+function check_float_number() { //Function to check whether number is float or int
+     if(parseFloat(nosDisplay.innerHTML)==parseInt(nosDisplay.innerHTML)) { //parseFloat('2.2')=2.2, parseInt('2.2')=2, parseFloat('2')=2, parseInt('2')=2
          return 0;
      } else {
          return 1;
@@ -158,7 +160,7 @@ function check_float_number() { // Function to check whether number is float or 
 function getFirstNumber() {
     if(calc_done) {
         let string = nosDisplay.innerHTML;
-        string = string.slice(2,string.length); // as i have '= ' in result need to take care of it so string will have the whole and updated string will have '= ' after this
+        string = string.slice(2,string.length); //as i have '= ' in result need to take care of it so string will have the whole and updated string will have '= ' after this
         if(check_float_number()) {
             first_number = parseFloat(string);
             dot_used = false;
@@ -166,6 +168,7 @@ function getFirstNumber() {
             first_number = parseInt(string);
         }
         first_number_found = true;
+        negetive_used = false; //First number is found so make it false
         return;
     }
     if(check_float_number()) {
@@ -175,16 +178,20 @@ function getFirstNumber() {
         first_number = parseInt(nosDisplay.innerHTML);
     }
     first_number_found=true;
+    negetive_used = false; //First number is found so make it false
     return;
 }
-// For the cancel
+//For the cancel
 function cancel_clicked() {
     nosDisplay.innerHTML='0';
     opDisplay.innerHTML='';
-    first_number=null;
-    second_number=null;
+    first_number = null;
+    second_number = null;
     result='= ';
-    cancel_pressed = true;
+    dot_used = false;
+    negetive_used = false;
+    calc_done = false;
+    return;
 }
 //For the equal
 function equal_clicked() {
@@ -194,9 +201,11 @@ function equal_clicked() {
     } else {
         second_number = parseInt(nosDisplay.innerHTML);
     }
+    negetive_used = false; //Second number is found so make it false
     calculation();
     opDisplay.innerHTML='';
     nosDisplay.innerHTML=result;
+    return;
 }
 //For the calculation
 function calculation() {
@@ -208,10 +217,10 @@ function calculation() {
             result += 'undefined';
         } else {
             let ans = first_number / second_number;
-            if(isInt(ans)) { // if ans is int make it as a single digit
+            if(isInt(ans)) { //if ans is int make it as a single digit
                 result += ans.toFixed(0); //if ans is 2.0 then we want it as 2
             } else {
-                result += ans.toFixed(2); // for 4 digit precision
+                result += ans.toFixed(2); //for 4 digit precision
             }
         }
         calc_done=true;
@@ -219,7 +228,7 @@ function calculation() {
     } else if(opDisplay.innerHTML=='X'){
         let ans = first_number * second_number;
         if(isInt(ans)) {
-            result += ans.toFixed(0); // this toFixed is used to round off
+            result += ans.toFixed(0); //this toFixed is used to round off
         } else {
             result += ans.toFixed(2);
         }
@@ -245,7 +254,7 @@ function calculation() {
         return;
     }
 }
-function isInt(n) { // Function to check if ans is int or float
+function isInt(n) { //Function to check if ans is int or float
     return n % 1 === 0;
  }
 
